@@ -1,0 +1,26 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: new-metrics-example
+spec:
+  groups:
+    - name: new-metrics-example.rules
+      rules:
+        - alert: NewExampleAlert
+          annotations:
+            message: |
+              Alert on: example_requests > 10
+          expr: example_requests > 10
+          labels:
+            severity: none
+            new: "true"
+            team: devs
+        - alert: NewExampleRateAlert
+          annotations:
+            message: |
+              High request rate
+          expr: rate(example_requests[10m]) > 10
+          labels:
+            new: "true"
+            severity: warn
+            team: infra
